@@ -10,11 +10,11 @@ namespace ConsoleChess
             Player pl = new Player();
             Console.WriteLine("Schachspiel");
             playfield.CreatePlayfield();
-            while (true) 
+            while (true)        //endless loop cause of testing 
             { 
                 Console.WriteLine();
-                pl.AskPlayerToMove();
-                playfield.PlayfieldArray = playfield.ChangePlayfield(playfield.PlayfieldArray, pl.Move());
+                pl.AskPlayerToMove();   //Player give Datas to Move from one Field to another eg. F4 -> F5
+                playfield.PlayfieldArray = playfield.ChangePlayfield(playfield.PlayfieldArray, pl.Move()); //overwrites the field, where the player move. Old field is replaced with "  "
                 playfield.CreatePlayfield();
                 Console.WriteLine();
                 //
