@@ -11,7 +11,7 @@ namespace ConsoleChess
         {
             { " ", "+", "A ", "+", "B ", "+", "C ", "+", "D ", "+", "E ", "+", "F ", "+", "G ", "+", "H ", "+", "" },
             { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "8", "|", "ST", "|", "SL", "|", "SP", "|", "SD", "|", "SK", "|", "SP", "|", "SL", "|", "ST", "|", "8"},
+            { "8", "|", "ST", "|", "SL", "|", "SS", "|", "SD", "|", "SK", "|", "SS", "|", "SL", "|", "ST", "|", "8"},
             { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
             { "7", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "7"},
             { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
@@ -166,14 +166,23 @@ namespace ConsoleChess
                 case "SB":
                     Pawn blackpawn = new Pawn();
                     return blackpawn.CheckIfMoveLegalBlackPawn(MoveArray, Array);
+                case "WD":
+                case "SD":
+                    Queen queen = new Queen();
+                    return queen.CheckIfMoveIsLegal(MoveArray);
                 case "WT":
                 case "ST":
+                    Tower tower = new Tower();
+                    return tower.CheckIfMoveIsLegal(MoveArray);
                 case "WL":
                 case "SL":
+                    Bishop bishop  = new Bishop();
+                    return bishop.CheckIfMoveIsLegal(MoveArray);
                 case "WP":
                 case "SP":
+                    Knight knight = new Knight();
+                    return knight.CheckIfMoveIsLegal(MoveArray);
                 case "  ":
-
                 default:
                     return false;
                 }
