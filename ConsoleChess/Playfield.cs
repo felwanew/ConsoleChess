@@ -7,43 +7,39 @@ namespace ConsoleChess
 {
     class Playfield
     {
-        public string[,] PlayfieldArray = new string[19, 19]
+        public string[,] PlayfieldArray = new string[8, 8]
         {
-            { " ", "+", "A ", "+", "B ", "+", "C ", "+", "D ", "+", "E ", "+", "F ", "+", "G ", "+", "H ", "+", "" },
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "8", "|", "ST", "|", "SL", "|", "SS", "|", "SD", "|", "SK", "|", "SS", "|", "SL", "|", "ST", "|", "8"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "7", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "SB", "|", "7"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "6", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "6"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "5", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "5"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "4", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "4"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "3", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "  ", "|", "3"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "2", "|", "WB", "|", "WB", "|", "WB", "|", "WB", "|", "WB", "|", "WB", "|", "WB", "|", "WB", "|", "2"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { "1", "|", "WT", "|", "WL", "|", "WS", "|", "WD", "|", "WK", "|", "WS", "|", "WL", "|", "WT", "|", "1"},
-            { " ", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "--", "+", "" },
-            { " ", "+", "A ", "+", "B ", "+", "C ", "+", "D ", "+", "E ", "+", "F ", "+", "G ", "+", "H ", "+", "" }
+            { "ST", "SL", "SS", "SD", "SK", "SS", "SL", "ST"},
+            { "SB", "SB", "SB", "SB", "SB", "SB", "SB", "SB"},
+            { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "},
+            { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "},
+            { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "},
+            { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "},
+            { "WB", "WB", "WB", "WB", "WB", "WB", "WB", "WB"},
+            { "WT", "WL", "WS", "WD", "WK", "WS", "WL", "WT"}
         };
         public void CreatePlayfield()
         {
-            for (int i = 0; i < 19; i++)
+            var number = 8; //number  to write down the row of a chesstile e.g. F4
+            Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");  //each single string represents one column --> better overview
+            Console.WriteLine(" " + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + " "); //
+            for (int i = 0; i < 8; i++)    
             {
-                for (int j = 0; j < 19; j++)
+                Console.Write(number - i + "|");
+                for (int j = 0; j < 8; j++)
                 {
-                    Console.Write(PlayfieldArray[i, j]);
+                    Console.Write(PlayfieldArray[i, j] + "|");
                 }
-                Console.WriteLine();
+                Console.WriteLine(number - i);
+                Console.WriteLine(" " + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + " ");
             }
+            Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");
         }
         public string[,] ChangePlayfield(string[,] PlayfieldArray, string[] MoveArray)
         {
             LocalizeInputInPlayfield(MoveArray);
-            int[] IntMoveArray = new int[4] {0,0,0,0};
+            int OldLetter = 
+            int OldNumber, NewLetter, NewNumber = 0;
             IntMoveArray = ConvertMoveArrayToInt(MoveArray, IntMoveArray);
             bool moveLegal = CheckIfMoveIsLegal(PlayfieldArray, IntMoveArray);
             if (moveLegal == true)
@@ -87,31 +83,31 @@ namespace ConsoleChess
             switch (MoveArray[index])
             {
                 case "A":
-                    x = 2;
+                    x = 0;
                     break;
                 case "B":
-                    x = 4;
+                    x = 1;
                     break;
                 case "C":
-                    x = 6;
+                    x = 2;
                     break;
                 case "D":
-                    x = 8;
+                    x = 3;
                     break;
                 case "E":
-                    x = 10;
+                    x = 4;
                     break;
                 case "F":
-                    x = 12;
+                    x = 5;
                     break;
                 case "G":
-                    x = 14;
+                    x = 6;
                     break;
                 case "H":
-                    x = 16;
+                    x = 7;
                     break;
                 default:
-                    x = 18; //error if 18
+                    x = -1; //error if -1
                     break;
             }
             return x;
@@ -121,31 +117,31 @@ namespace ConsoleChess
         switch (MoveArray[index])
             {
             case "1":
-                x = 16;
+                x = 7;
                 break;
             case "2":
-                x = 14;
-                break;
-            case "3":
-                x = 12;
-                break;
-            case "4":
-                x = 10;
-                break;
-            case "5":
-                x = 8;
-                break;
-            case "6":
                 x = 6;
                 break;
-            case "7":
+            case "3":
+                x = 5;
+                break;
+            case "4":
                 x = 4;
                 break;
-            case "8":
+            case "5":
+                x = 3;
+                break;
+            case "6":
                 x = 2;
                 break;
+            case "7":
+                x = 1;
+                break;
+            case "8":
+                x = 0;
+                break;
             default:
-                x = 18; //error if 18
+                x = -1; //error if -1
                 break;
             }
         return x;
