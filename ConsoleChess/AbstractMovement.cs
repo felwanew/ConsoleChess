@@ -69,6 +69,24 @@ namespace ConsoleChess
             return false;
 
         }
-        //public bool ForwardMoveLegalAbstract
+        public bool KingMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        {
+            if(OldLetter == NewLetter && OldNumber == NewNumber + 1 ||
+                OldLetter == NewLetter && OldNumber == NewNumber - 1 ||
+                OldLetter == NewLetter + 1 && OldNumber == NewNumber + 1 ||
+                OldLetter == NewLetter + 1 && OldNumber == NewNumber - 1 ||
+                OldLetter == NewLetter + 1 && OldNumber == NewNumber ||
+                OldLetter == NewLetter - 1 && OldNumber == NewNumber - 1 ||
+                OldLetter == NewLetter - 1 && OldNumber == NewNumber + 1 ||
+                OldLetter == NewLetter - 1 && OldNumber == NewNumber)
+                return true;
+            return false;
+        }
+        public bool KnightMoveLegal(int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        {
+            if (OldLetter == NewLetter + 1 && OldNumber == NewNumber + 2)
+                return true;
+            return false;
+        }
     }
 }
