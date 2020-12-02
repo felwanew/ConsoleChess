@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    class Player
+    public class Player
     {
         public string AskPlayerToMove()
         {

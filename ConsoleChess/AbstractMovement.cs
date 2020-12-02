@@ -29,13 +29,13 @@ namespace ConsoleChess
                 return false;
 
         }
-        public bool StraightMoveLegalAbstract(int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public bool StraightMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             if (OldLetter != NewLetter && OldNumber == NewNumber || OldLetter == NewLetter && OldNumber != NewNumber)
                 return true;
             return false;
         }
-        public bool DiagonalMoveLegalAbstract(int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public bool DiagonalMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             if (OldLetter == NewLetter + 1 && OldNumber == NewNumber + 1 ||
             OldLetter == NewLetter + 2 && OldNumber == NewNumber + 2 ||
@@ -69,5 +69,6 @@ namespace ConsoleChess
             return false;
 
         }
+        //public bool ForwardMoveLegalAbstract
     }
 }

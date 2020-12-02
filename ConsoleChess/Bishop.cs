@@ -4,14 +4,11 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    class Bishop
+    class Bishop : AbstractMovement
     {
-        public bool CheckIfMoveIsLegal(int [] MoveArray){
-            //New Position of Number = Convert.ToInt32(MoveArray[3])
-            //New Position of Letter = Convert.ToInt32(MoveArray[2])
-            //Old Position of Number = Convert.ToInt32(MoveArray[1])
-            //Old Position of Letter = Convert.ToInt32(MoveArray[0])  
-            if ()
+        public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        {  
+            if (DiagonalMoveLegalAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber))
                 return true;
             return false;
 

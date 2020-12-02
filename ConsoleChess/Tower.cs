@@ -4,16 +4,11 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    class Tower
+    public class Tower : AbstractMovement
     {
-        public bool CheckIfMoveIsLegal(int[] MoveArray)
+        public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            //New Position of Number = Convert.ToInt32(MoveArray[3])
-            //New Position of Letter = Convert.ToInt32(MoveArray[2])
-            //Old Position of Number = Convert.ToInt32(MoveArray[1])
-            //Old Position of Letter = Convert.ToInt32(MoveArray[0])  
-            if (Convert.ToInt32(MoveArray.GetValue(0)) != Convert.ToInt32(MoveArray.GetValue(2)) && Convert.ToInt32(MoveArray.GetValue(1)) == Convert.ToInt32(MoveArray.GetValue(3)) ||
-                Convert.ToInt32(MoveArray.GetValue(0)) == Convert.ToInt32(MoveArray.GetValue(2)) && Convert.ToInt32(MoveArray.GetValue(1)) != Convert.ToInt32(MoveArray.GetValue(3)))
+            if (StraightMoveLegalAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber))
                 return true;
             return false;        
         }
