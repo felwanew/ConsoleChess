@@ -37,147 +37,125 @@ namespace ConsoleChess
         }
         public string[,] ChangePlayfield(string[,] PlayfieldArray, string[] MoveArray)
         {
-            LocalizeInputInPlayfield(MoveArray);
-            int OldLetter = 
-            int OldNumber, NewLetter, NewNumber = 0;
-            IntMoveArray = ConvertMoveArrayToInt(MoveArray, IntMoveArray);
-            bool moveLegal = CheckIfMoveIsLegal(PlayfieldArray, IntMoveArray);
+            int OldLetter = CompareLetter(Convert.ToString(MoveArray.GetValue(0)));
+            int OldNumber = CompareNumber(Convert.ToString(MoveArray.GetValue(1)));
+            int NewLetter = CompareLetter(Convert.ToString(MoveArray.GetValue(2)));
+            int NewNumber = CompareNumber(Convert.ToString(MoveArray.GetValue(3)));
+
+            
+            bool moveLegal = CheckIfMoveIsLegal(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber);
             if (moveLegal == true)
             {
-                 DoMove(PlayfieldArray, MoveArray);
+                 DoMove(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber);
             }
             else
             {
                 Console.WriteLine("Zug ungültig");
             }
-            //Console.WriteLine(MoveArray[0] + " " + MoveArray[1] + " " + MoveArray[2] + " " + MoveArray[3]);
-
             return PlayfieldArray;
         }
-        public string[] LocalizeInputInPlayfield(string[] MoveArray)
+        private int CompareLetter(string MoveArray)
         {
-            int x = 0,  index = 0;
-            x = CompareLetter(x, MoveArray, index);
-            MoveArray[0] = Convert.ToString(x);
-            index = 1;
-            x = CompareNumber(x, MoveArray, index);
-            MoveArray[1] = Convert.ToString(x);
-            index = 2;
-            x = CompareLetter(x, MoveArray, index);
-            MoveArray[2] = Convert.ToString(x);
-            index = 3;
-            x = CompareNumber(x, MoveArray, index);
-            MoveArray[3] = Convert.ToString(x);
-            return MoveArray;
-        }
-        private int[] ConvertMoveArrayToInt(string[] MoveArray, int[] IntMoveArray)
-        {
-            for(int i = 0;i < 4; i++)
-            {
-                IntMoveArray[i] = Convert.ToInt32(MoveArray[i]);
-            }
-            return IntMoveArray;
-        }
-        private int CompareLetter(int x, string[] MoveArray, int index)
-        {
-            switch (MoveArray[index])
+            int Letter;
+            switch (MoveArray)
             {
                 case "A":
-                    x = 0;
+                    Letter = 0;
                     break;
                 case "B":
-                    x = 1;
+                    Letter = 1;
                     break;
                 case "C":
-                    x = 2;
+                    Letter = 2;
                     break;
                 case "D":
-                    x = 3;
+                    Letter = 3;
                     break;
                 case "E":
-                    x = 4;
+                    Letter = 4;
                     break;
                 case "F":
-                    x = 5;
+                    Letter = 5;
                     break;
                 case "G":
-                    x = 6;
+                    Letter = 6;
                     break;
                 case "H":
-                    x = 7;
+                    Letter = 7;
                     break;
                 default:
-                    x = -1; //error if -1
+                    Letter = -1; //error if -1
                     break;
             }
-            return x;
+            return Letter;
         }
-        private int CompareNumber(int x, string[] MoveArray, int index)
+        private int CompareNumber(string MoveArray)
         {
-        switch (MoveArray[index])
+            int Number;
+        switch (MoveArray)
             {
             case "1":
-                x = 7;
+                Number = 7;
                 break;
             case "2":
-                x = 6;
+                Number = 6;
                 break;
             case "3":
-                x = 5;
+                Number = 5;
                 break;
             case "4":
-                x = 4;
+                Number = 4;
                 break;
             case "5":
-                x = 3;
+                Number = 3;
                 break;
             case "6":
-                x = 2;
+                Number = 2;
                 break;
             case "7":
-                x = 1;
+                Number = 1;
                 break;
             case "8":
-                x = 0;
+                Number = 0;
                 break;
             default:
-                x = -1; //error if -1
+                Number = -1; //error if -1
                 break;
             }
-        return x;
+        return Number;
         }
-        public  string [,] DoMove(string[,] PlayfieldArray, string[] MoveArray)
+        public  string [,] DoMove(string[,] PlayfieldArray, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            PlayfieldArray[Convert.ToInt32(MoveArray[3]), Convert.ToInt32(MoveArray[2])] = PlayfieldArray[Convert.ToInt32(MoveArray[1]), Convert.ToInt32(MoveArray[0])];
-            PlayfieldArray[Convert.ToInt32(MoveArray[1]), Convert.ToInt32(MoveArray[0])] = "  ";
+            PlayfieldArray[NewNumber, NewLetter] = PlayfieldArray[OldNumber,OldLetter];
+            PlayfieldArray[OldNumber, OldLetter] = "  ";
             return PlayfieldArray;
         }
-        public bool CheckIfMoveIsLegal(string[,] Array, int[] MoveArray)
+        public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            switch(Array.GetValue(Convert.ToInt32(MoveArray[1]), Convert.ToInt32(MoveArray[0])))
+            switch(Array.GetValue(OldNumber, OldLetter))
                 {
                 case "WB": 
                     Pawn pawn = new Pawn();
-                    return pawn.CheckIfMoveLegalWhitePawn(MoveArray, Array);
+                    return pawn.CheckIfMoveLegalWhitePawn(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "SB":
                     Pawn blackpawn = new Pawn();
-                    return blackpawn.CheckIfMoveLegalBlackPawn(MoveArray, Array);
+                    return blackpawn.CheckIfMoveLegalBlackPawn(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "WD":
                 case "SD":
                     Queen queen = new Queen();
-                    return queen.CheckIfMoveIsLegal(MoveArray);
+                    return queen.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "WT":
                 case "ST":
                     Tower tower = new Tower();
-                    return tower.CheckIfMoveIsLegal(MoveArray);
+                    return tower.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "WL":
                 case "SL":
                     Bishop bishop  = new Bishop();
-                    return bishop.CheckIfMoveIsLegal(MoveArray);
+                    return bishop.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "WP":
                 case "SP":
                     Knight knight = new Knight();
-                    return knight.CheckIfMoveIsLegal(MoveArray);
+                    return knight.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "  ":
                 default:
                     return false;

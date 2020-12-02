@@ -4,38 +4,15 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    public class Pawn
+    public class Pawn : AbstractMovement
     {
-        public bool CheckIfMoveLegalWhitePawn(int [] MoveArray, string[,] Array)
+        public bool CheckIfMoveLegalWhitePawn(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            //New Position of Number = Convert.ToInt32(MoveArray[3])
-            //New Position of Letter = Convert.ToInt32(MoveArray[2])
-            //Old Position of Number = Convert.ToInt32(MoveArray[1])
-            //Old Position of Letter = Convert.ToInt32(MoveArray[0])  
-            if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) - 1 && MoveArray.GetValue(2) == MoveArray.GetValue(0) && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) =="  " )
-                return true;
-            else if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) - 2 && Convert.ToInt32(MoveArray.GetValue(1)) >=7 && MoveArray.GetValue(2) == MoveArray.GetValue(0) && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)) -1, Convert.ToInt32(MoveArray.GetValue(2)))) == "  " && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) == "  ")
-                return true;
-            else if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) - 1  && Convert.ToInt32(MoveArray.GetValue(2)) == Convert.ToInt32(MoveArray.GetValue(0)) - 1 || Convert.ToInt32(MoveArray.GetValue(2)) == Convert.ToInt32(MoveArray.GetValue(0)) + 1 && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) != "  ")
-                return true;
-            else
-                return false;
+            return CheckIfMoveLegalWhitePawnAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber);
         }
-        public bool CheckIfMoveLegalBlackPawn(int[] MoveArray, string[,] Array)
+        public bool CheckIfMoveLegalBlackPawn(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            //New Position of Number = Convert.ToInt32(MoveArray[3])
-            //New Position of Letter = Convert.ToInt32(MoveArray[2])
-            //Old Position of Number = Convert.ToInt32(MoveArray[1])
-            //Old Position of Letter = Convert.ToInt32(MoveArray[0])
-            if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) + 1 && MoveArray.GetValue(2) == MoveArray.GetValue(0) && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) == "  ")
-                return true;
-            else if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) + 2 && Convert.ToInt32(MoveArray.GetValue(1)) <= 2 && MoveArray.GetValue(2) == MoveArray.GetValue(0) && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)) + 1, Convert.ToInt32(MoveArray.GetValue(2)))) == "  " && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) == "  ")
-                return true;
-            else if (Convert.ToInt32(MoveArray.GetValue(3)) == Convert.ToInt32(MoveArray.GetValue(1)) + 1 && Convert.ToInt32(MoveArray.GetValue(2)) == Convert.ToInt32(MoveArray.GetValue(0)) + 1 || Convert.ToInt32(MoveArray.GetValue(2)) == Convert.ToInt32(MoveArray.GetValue(0)) - 1 && Convert.ToString(Array.GetValue(Convert.ToInt32(MoveArray.GetValue(3)), Convert.ToInt32(MoveArray.GetValue(2)))) != "  ")
-                return true;
-            else
-                return false;
-
+            return CheckIfMoveLegalBlackPawnAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber);
         }
     }
 }
