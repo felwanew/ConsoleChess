@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+/*
+ * This Class provides Methods to check if a move is legal
+ * Array means the whole playfield and is required to check if a field is occupied or empty
+ * The 4 Ints are the index of the old and the new position of a chess piece
+ * 
+ */
 namespace ConsoleChess
 {
     public abstract class AbstractMovement
     {
-        public bool CheckIfMoveLegalWhitePawnAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public bool CheckIfMoveLegalWhitePawnAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)  
         {
             if (NewNumber == OldNumber - 1 && NewLetter == OldLetter && Array[NewNumber, NewLetter] == "  ")
                 return true;
@@ -69,7 +74,7 @@ namespace ConsoleChess
             return false;
 
         }
-        public bool KingMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public bool KingMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber) //the proving of the case "the king is in a Schach with a move" is missing 
         {
             if(OldLetter == NewLetter && OldNumber == NewNumber + 1 ||
                 OldLetter == NewLetter && OldNumber == NewNumber - 1 ||
@@ -82,9 +87,16 @@ namespace ConsoleChess
                 return true;
             return false;
         }
-        public bool KnightMoveLegal(int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public bool KnightMoveLegalAbstract(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber) 
         {
-            if (OldLetter == NewLetter + 1 && OldNumber == NewNumber + 2)
+            if (OldLetter == NewLetter + 1 && OldNumber == NewNumber + 2 ||
+                OldLetter == NewLetter + 1 && OldNumber == NewNumber - 2 ||
+                OldLetter == NewLetter - 1 && OldNumber == NewNumber + 2 ||
+                OldLetter == NewLetter - 1 && OldNumber == NewNumber - 2 ||
+                OldLetter == NewLetter + 2 && OldNumber == NewNumber + 1 ||
+                OldLetter == NewLetter + 2 && OldNumber == NewNumber - 1 ||
+                OldLetter == NewLetter - 2 && OldNumber == NewNumber + 1 ||
+                OldLetter == NewLetter - 2 && OldNumber == NewNumber - 1)
                 return true;
             return false;
         }

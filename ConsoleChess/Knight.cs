@@ -8,7 +8,7 @@ namespace ConsoleChess
     {
         public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-        if(true)
+        if(KnightMoveLegalAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber))
                 return true;
             return false;
         }

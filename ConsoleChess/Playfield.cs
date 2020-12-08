@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    class Playfield
+    public static class Playfield
     {
-        public string[,] PlayfieldArray = new string[8, 8]
+        public static string[,] PlayfieldArray = new string[8, 8]
         {
             { "ST", "SL", "SS", "SD", "SK", "SS", "SL", "ST"},
             { "SB", "SB", "SB", "SB", "SB", "SB", "SB", "SB"},
@@ -18,7 +18,7 @@ namespace ConsoleChess
             { "WB", "WB", "WB", "WB", "WB", "WB", "WB", "WB"},
             { "WT", "WL", "WS", "WD", "WK", "WS", "WL", "WT"}
         };
-        public void CreatePlayfield()
+        public static void CreatePlayfield()
         {
             var number = 8; //number  to write down the row of a chesstile e.g. F4
             Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");  //each single string represents one column --> better overview
@@ -35,7 +35,7 @@ namespace ConsoleChess
             }
             Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");
         }
-        public string[,] ChangePlayfield(string[,] PlayfieldArray, string[] MoveArray)
+        public static string[,] ChangePlayfield(string[,] PlayfieldArray, string[] MoveArray)
         {
             int OldLetter = CompareLetter(Convert.ToString(MoveArray.GetValue(0)));
             int OldNumber = CompareNumber(Convert.ToString(MoveArray.GetValue(1)));
@@ -54,7 +54,7 @@ namespace ConsoleChess
             }
             return PlayfieldArray;
         }
-        private int CompareLetter(string MoveArray)
+        private static int CompareLetter(string MoveArray)
         {
             int Letter;
             switch (MoveArray)
@@ -89,7 +89,7 @@ namespace ConsoleChess
             }
             return Letter;
         }
-        private int CompareNumber(string MoveArray)
+        private static int CompareNumber(string MoveArray)
         {
             int Number;
         switch (MoveArray)
@@ -124,13 +124,13 @@ namespace ConsoleChess
             }
         return Number;
         }
-        public  string [,] DoMove(string[,] PlayfieldArray, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public static string [,] DoMove(string[,] PlayfieldArray, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             PlayfieldArray[NewNumber, NewLetter] = PlayfieldArray[OldNumber,OldLetter];
             PlayfieldArray[OldNumber, OldLetter] = "  ";
             return PlayfieldArray;
         }
-        public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public static bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             switch(Array.GetValue(OldNumber, OldLetter))
                 {
@@ -152,10 +152,14 @@ namespace ConsoleChess
                 case "SL":
                     Bishop bishop  = new Bishop();
                     return bishop.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WP":
-                case "SP":
+                case "WS":
+                case "SS":
                     Knight knight = new Knight();
                     return knight.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
+                case "WK":
+                case "SK":
+                    King king = new King();
+                    return king.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
                 case "  ":
                 default:
                     return false;
