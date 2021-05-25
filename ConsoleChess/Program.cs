@@ -11,7 +11,7 @@ namespace ConsoleChess
             Player pl2 = new Player("Player2");
             Console.WriteLine("Schachspiel");
             Playfield.CreatePlayfield();
-            while (true)        //endless loop cause of testing
+            while (true)        //endless loop cause of testing and unfinished status of program
             { 
                 for(int i = 0; i < 10; i++)   //for loop to decide wich player have right to move
                 {                

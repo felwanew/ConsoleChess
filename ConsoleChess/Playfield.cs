@@ -132,8 +132,17 @@ namespace ConsoleChess
         }
         public static bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            switch(Array.GetValue(OldNumber, OldLetter))
-                {
+            string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
+            string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
+            string substring1 = GetFieldValue(Array, OldNumber, OldLetter);
+            string substring2 = GetFieldValue(Array, NewNumber, NewLetter);
+            if (substring1 == substring2) //Check if figure is Occupied by own figure
+            {
+                Console.WriteLine("Schlagen eigener Figuren ist nicht möglich");
+                return false;
+            }
+            switch (Array.GetValue(OldNumber, OldLetter))
+            {
                 case "WB": 
                     Pawn pawn = new Pawn();
                     return pawn.CheckIfMoveLegalWhitePawn(Array, OldLetter, OldNumber, NewLetter, NewNumber);
@@ -163,7 +172,13 @@ namespace ConsoleChess
                 case "  ":
                 default:
                     return false;
-                }
+            }
+
+        }
+        private static string GetFieldValue(string[,] Array, int Number, int Letter)
+        {
+            string s1 = Convert.ToString(Array.GetValue(Number, Letter));
+            return s1.Substring(0, 1);
         }
     }
 }
