@@ -13,7 +13,7 @@ namespace ConsoleChess
             Playfield.CreatePlayfield();
             while (true)        //endless loop cause of testing and unfinished status of program
             { 
-                for(int i = 0; i < 10; i++)   //for loop to decide wich player have right to move
+                for(int i = 0; i >= 0; i++)   //for loop to decide wich player have right to move i=-1 when checkmate
                 {                
                     Console.WriteLine();
                     if (i % 2 == 0)

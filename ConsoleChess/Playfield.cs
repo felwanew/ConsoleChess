@@ -132,15 +132,17 @@ namespace ConsoleChess
         }
         public static bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
-            string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
-            string substring1 = GetFieldValue(Array, OldNumber, OldLetter);
-            string substring2 = GetFieldValue(Array, NewNumber, NewLetter);
+            //string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
+            //string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
+            string substring1 = GetFirstLetterOfPiece(Array, OldNumber, OldLetter);
+            string substring2 = GetFirstLetterOfPiece(Array, NewNumber, NewLetter);
+
             if (substring1 == substring2) //Check if figure is Occupied by own figure
             {
                 Console.WriteLine("Schlagen eigener Figuren ist nicht möglich");
                 return false;
             }
+            Checkoccupation(Array, OldLetter, OldNumber, NewLetter, NewNumber);
             switch (Array.GetValue(OldNumber, OldLetter))
             {
                 case "WB": 
@@ -175,7 +177,25 @@ namespace ConsoleChess
             }
 
         }
-        private static string GetFieldValue(string[,] Array, int Number, int Letter)
+
+        static void Checkoccupation(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber) 
+        {
+            string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
+            string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
+            string substring1 = GetFirstLetterOfPiece(Array, OldNumber, OldLetter);
+            string substring2 = GetFirstLetterOfPiece(Array, NewNumber, NewLetter);
+        }
+
+        static bool Mate(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        {
+            return true;
+        }
+        static bool Checkmate(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        {
+            return true;
+        }
+
+        private static string GetFirstLetterOfPiece(string[,] Array, int Number, int Letter) //e.g. W for White or B for Black
         {
             string s1 = Convert.ToString(Array.GetValue(Number, Letter));
             return s1.Substring(0, 1);
