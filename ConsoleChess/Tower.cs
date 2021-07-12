@@ -4,13 +4,18 @@ using System.Text;
 
 namespace ConsoleChess
 {
-    public class Tower : AbstractMovement
+    public class Tower : AbstractPiece, IChessPiece
     {
+        public Tower(bool isWhite)
+            : base(isWhite)
+        {
+        }
+
         public bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             if (StraightMoveLegalAbstract(Array, OldLetter, OldNumber, NewLetter, NewNumber))
                 return true;
-            return false;        
+            return false;
         }
     }
 }
