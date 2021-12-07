@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace ConsoleChess
 {
     public static class Playfield
     {
+        private static IChessPieceFactory pieceFactory = new ChessPieceFactory();
+
         public static string[,] PlayfieldArray = new string[8, 8]
         {
             { "ST", "SL", "SS", "SD", "SK", "SS", "SL", "ST"},
@@ -18,12 +17,13 @@ namespace ConsoleChess
             { "WB", "WB", "WB", "WB", "WB", "WB", "WB", "WB"},
             { "WT", "WL", "WS", "WD", "WK", "WS", "WL", "WT"}
         };
-        public static void CreatePlayfield()
+
+        public static void ShowPlayfield()
         {
             var number = 8; //number  to write down the row of a chesstile e.g. F4
             Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");  //each single string represents one column --> better overview
             Console.WriteLine(" " + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + "--" + "+" + " "); //
-            for (int i = 0; i < 8; i++)    
+            for (int i = 0; i < 8; i++)
             {
                 Console.Write(number - i + "|");
                 for (int j = 0; j < 8; j++)
@@ -35,102 +35,56 @@ namespace ConsoleChess
             }
             Console.WriteLine(" " + "+" + "A " + "+" + "B " + "+" + "C " + "+" + "D " + "+" + "E " + "+" + "F " + "+" + "G " + "+" + "H " + "+" + " ");
         }
-        public static string[,] ChangePlayfield(string[,] PlayfieldArray, string[] MoveArray)
+        public static bool ChangePlayfield(string[] MoveArray, Player player)
         {
-            int OldLetter = CompareLetter(Convert.ToString(MoveArray.GetValue(0)));
-            int OldNumber = CompareNumber(Convert.ToString(MoveArray.GetValue(1)));
-            int NewLetter = CompareLetter(Convert.ToString(MoveArray.GetValue(2)));
-            int NewNumber = CompareNumber(Convert.ToString(MoveArray.GetValue(3)));
+            int OldLetter = ConvertLetterToColumnNumber(Convert.ToString(MoveArray.GetValue(0)));
+            if (OldLetter < 0)
+                return false;
+            int OldNumber = ConvertNumberStringToNumber(Convert.ToString(MoveArray.GetValue(1)));
+            if (OldNumber < 0)
+                return false;
+            int NewLetter = ConvertLetterToColumnNumber(Convert.ToString(MoveArray.GetValue(2)));
+            if (NewLetter < 0)
+                return false;
+            int NewNumber = ConvertNumberStringToNumber(Convert.ToString(MoveArray.GetValue(3)));
+            if (NewNumber < 0)
+                return false;
 
-            
-            bool moveLegal = CheckIfMoveIsLegal(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber);
+
+            bool moveLegal = CheckIfMoveIsLegal(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber, player);
             if (moveLegal == true)
             {
-                 DoMove(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber);
+                DoMove(PlayfieldArray, OldLetter, OldNumber, NewLetter, NewNumber);
+                return true;
             }
             else
             {
-                Console.WriteLine("Zug ungültig");
+                return false;
             }
-            return PlayfieldArray;
         }
-        private static int CompareLetter(string MoveArray)
+        private static int ConvertLetterToColumnNumber(string letter)
         {
-            int Letter;
-            switch (MoveArray)
-            {
-                case "A":
-                    Letter = 0;
-                    break;
-                case "B":
-                    Letter = 1;
-                    break;
-                case "C":
-                    Letter = 2;
-                    break;
-                case "D":
-                    Letter = 3;
-                    break;
-                case "E":
-                    Letter = 4;
-                    break;
-                case "F":
-                    Letter = 5;
-                    break;
-                case "G":
-                    Letter = 6;
-                    break;
-                case "H":
-                    Letter = 7;
-                    break;
-                default:
-                    Letter = -1; //error if -1
-                    break;
-            }
-            return Letter;
+            var number = letter[0] - 'A';
+            if (number > 7 || number < -1)
+                return -1;
+            return number;
         }
-        private static int CompareNumber(string MoveArray)
+
+        private static int ConvertNumberStringToNumber(string numberString)
         {
-            int Number;
-        switch (MoveArray)
-            {
-            case "1":
-                Number = 7;
-                break;
-            case "2":
-                Number = 6;
-                break;
-            case "3":
-                Number = 5;
-                break;
-            case "4":
-                Number = 4;
-                break;
-            case "5":
-                Number = 3;
-                break;
-            case "6":
-                Number = 2;
-                break;
-            case "7":
-                Number = 1;
-                break;
-            case "8":
-                Number = 0;
-                break;
-            default:
-                Number = -1; //error if -1
-                break;
-            }
-        return Number;
+            var number = 8 - (numberString[0] - '0');
+            if (number > 7 || number < -1)
+                return -1;
+            return number;
         }
-        public static string [,] DoMove(string[,] PlayfieldArray, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+
+        public static string[,] DoMove(string[,] PlayfieldArray, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
-            PlayfieldArray[NewNumber, NewLetter] = PlayfieldArray[OldNumber,OldLetter];
+            PlayfieldArray[NewNumber, NewLetter] = PlayfieldArray[OldNumber, OldLetter];
             PlayfieldArray[OldNumber, OldLetter] = "  ";
             return PlayfieldArray;
         }
-        public static bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
+        public static bool CheckIfMoveIsLegal(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber, Player player)
         {
             //string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
             //string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
@@ -143,42 +97,13 @@ namespace ConsoleChess
                 return false;
             }
             Checkoccupation(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-            switch (Array.GetValue(OldNumber, OldLetter))
-            {
-                case "WB": 
-                    Pawn pawn = new Pawn();
-                    return pawn.CheckIfMoveLegalWhitePawn(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "SB":
-                    Pawn blackpawn = new Pawn();
-                    return blackpawn.CheckIfMoveLegalBlackPawn(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WD":
-                case "SD":
-                    Queen queen = new Queen();
-                    return queen.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WT":
-                case "ST":
-                    Tower tower = new Tower();
-                    return tower.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WL":
-                case "SL":
-                    Bishop bishop  = new Bishop();
-                    return bishop.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WS":
-                case "SS":
-                    Knight knight = new Knight();
-                    return knight.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "WK":
-                case "SK":
-                    King king = new King();
-                    return king.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
-                case "  ":
-                default:
-                    return false;
-            }
-
+            var piece = pieceFactory.GetPiece(Array.GetValue(OldNumber, OldLetter).ToString());
+            if (piece.IsWhite != player.IsWhite)
+                return false;
+            return piece.CheckIfMoveIsLegal(Array, OldLetter, OldNumber, NewLetter, NewNumber);
         }
 
-        static void Checkoccupation(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber) 
+        static void Checkoccupation(string[,] Array, int OldLetter, int OldNumber, int NewLetter, int NewNumber)
         {
             string s1 = Convert.ToString(Array.GetValue(OldNumber, OldLetter));
             string s2 = Convert.ToString(Array.GetValue(NewNumber, NewLetter));
