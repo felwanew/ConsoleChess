@@ -19,7 +19,10 @@ namespace ConsoleChess
         {
             string movefrom = Console.ReadLine();
             string moveto = Console.ReadLine();
-            string[] array = new string[] { movefrom.Substring(0, 1), movefrom.Substring(1, 1), moveto.Substring(0, 1), moveto.Substring(1, 1) }; //fängt zu lange Abfragen ab z.B. F321ve = F3
+            movefrom = movefrom.ToUpper();
+            moveto = moveto.ToUpper();
+             
+            string[] array = new string[] { movefrom.Substring(0, 1), movefrom.Substring(1, 1), moveto.Substring(0, 1), moveto.Substring(1, 1) };
             Console.WriteLine(array[0]+ " " + array[1] + " " + array[2] + " " + array[3]);
             return array;
         }
