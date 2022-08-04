@@ -13,7 +13,8 @@ namespace ConsoleChess
             Console.WriteLine("Schachspiel");
             Playfield.playfield.CreatePlayfield();
             while (true)        //endless loop cause of testing and unfinished status of program
-            { 
+            {
+                Console.WriteLine("Schachspiel");
                 KingPosition = playfield.WhereIsKing(KingPosition);
                 for (int i = 0; i >= 0; i++)   //for loop to decide which player have right to move i= -1 when checkmate
                 {                
